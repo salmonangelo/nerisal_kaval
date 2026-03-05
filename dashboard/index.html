@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nerisal Kaval Command Center</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>🎯 Nerisal Kaval Command Center</h1>
+        <p>AI-Powered Crowd Risk Monitoring System</p>
+    </header>
+
+    <main>
+        <section id="status-section">
+            <h2>📊 Zone Status</h2>
+            <table id="status-table">
+                <thead>
+                    <tr>
+                        <th>Zone</th>
+                        <th>Count</th>
+                        <th>Density</th>
+                        <th>Risk Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4" style="text-align:center; color: #999;">Initializing...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="alerts-section">
+            <h2>🚨 Alerts</h2>
+            <div id="alerts-panel">
+                <p style="color: #666;">No alerts - System nominal</p>
+            </div>
+        </section>
+
+        <section id="info-section">
+            <h2>ℹ️ System Info</h2>
+            <div id="info-panel">
+                <p><strong>Status:</strong> <span id="api-status" style="color: gray;">Connecting...</span></p>
+                <p><strong>Last Update:</strong> <span id="last-update">Never</span></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 CrowdCare System | Auto-refresh: 5s</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

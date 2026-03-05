@@ -1,0 +1,152 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+header {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+header h1 {
+    color: #667eea;
+    margin-bottom: 5px;
+}
+
+header p {
+    color: #999;
+    font-size: 14px;
+}
+
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+section h2 {
+    color: #667eea;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th {
+    background: #f5f5f5;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+}
+
+table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+table tbody tr:hover {
+    background: #f9f9f9;
+}
+
+table tbody tr.green {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+table tbody tr.amber {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+table tbody tr.red {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+#alerts-panel {
+    padding: 15px;
+    border-radius: 6px;
+    background: #f9f9f9;
+    min-height: 40px;
+}
+
+#alerts-panel div {
+    padding: 8px 0;
+}
+
+#info-panel {
+    padding: 15px;
+    background: #f0f0f0;
+    border-radius: 6px;
+}
+
+#info-panel p {
+    margin: 8px 0;
+    padding: 5px 0;
+}
+
+#api-status.online {
+    color: #28a745;
+    font-weight: bold;
+}
+
+#api-status.offline {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    color: white;
+    margin-top: 30px;
+    font-size: 12px;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    section {
+        padding: 15px;
+    }
+
+    table th, table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    header h1 {
+        font-size: 20px;
+    }
+
+    main {
+        max-width: 100%;
+    }
+}
