@@ -1,12 +1,23 @@
-from fastapi import FastAPI, HTTPException
+import asyncio
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, Body
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from .config import DATABASE_NAME
 from .database.db_manager import DBManager
 from typing import List, Dict, Any
 
-app = FastAPI(title="CrowdCare API")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # initialize a database manager on startup
+    app.state.db = DBManager(f"{DATABASE_NAME}")
+    yield
+
+app = FastAPI(title="CrowdCare API", lifespan=lifespan)
+
+# Global in-memory buffer for live frames
+latest_frames: Dict[str, bytes] = {}
 
 # Enable CORS for dashboard to access API
 app.add_middleware(
@@ -17,10 +28,27 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# initialize a database manager on startup
-@app.on_event("startup")
-def startup_event():
-    app.state.db = DBManager(f"{DATABASE_NAME}")
+
+
+
+# Internal endpoint for run.py to push processed frames
+@app.post("/api/internal/update_frame/{zone}")
+async def update_frame(zone: str, frame: bytes = Body(...)):
+    latest_frames[zone] = frame
+    return {"status": "ok"}
+
+
+@app.get("/api/stream/{zone}")
+async def stream_zone(zone: str):
+    """MJPEG streaming endpoint for a specific zone."""
+    async def frame_generator():
+        while True:
+            if zone in latest_frames:
+                yield (b'--frame\r\n'
+                       b'Content-Type: image/jpeg\r\n\r\n' + latest_frames[zone] + b'\r\n')
+            await asyncio.sleep(0.1) # Controls stream FPS (approx 10 FPS)
+            
+    return StreamingResponse(frame_generator(), media_type="multipart/x-mixed-replace; boundary=frame")
 
 
 # API routes must be defined BEFORE static files mount to take priority

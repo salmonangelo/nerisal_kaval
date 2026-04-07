@@ -22,6 +22,44 @@ class DBManager:
             )
             """
         )
+        
+        # Safely upgrade schema
+        try:
+            cursor.execute("ALTER TABLE metrics ADD COLUMN local_density REAL DEFAULT 0.0")
+        except sqlite3.OperationalError:
+            pass  # column already exists
+            
+        try:
+            cursor.execute("ALTER TABLE metrics ADD COLUMN density_class TEXT DEFAULT 'Empty'")
+        except sqlite3.OperationalError:
+            pass  # column already exists
+
+        # Clustering upgrades
+        try:
+            cursor.execute("ALTER TABLE metrics ADD COLUMN cluster_detected INTEGER DEFAULT 0")
+        except sqlite3.OperationalError:
+            pass
+
+        try:
+            cursor.execute("ALTER TABLE metrics ADD COLUMN cluster_risk TEXT DEFAULT 'Green'")
+        except sqlite3.OperationalError:
+            pass
+
+        try:
+            cursor.execute("ALTER TABLE metrics ADD COLUMN hotspot_x INTEGER DEFAULT 0")
+        except sqlite3.OperationalError:
+            pass
+
+        try:
+            cursor.execute("ALTER TABLE metrics ADD COLUMN hotspot_y INTEGER DEFAULT 0")
+        except sqlite3.OperationalError:
+            pass
+
+        try:
+            cursor.execute("ALTER TABLE metrics ADD COLUMN cluster_ratio REAL DEFAULT 0.0")
+        except sqlite3.OperationalError:
+            pass
+
         self.conn.commit()
 
     def insert_metric(
@@ -30,14 +68,25 @@ class DBManager:
         count: int,
         density_ratio: float,
         risk_level: str,
+        local_density: float = 0.0,
+        density_class: str = "Empty",
+        cluster_detected: int = 0,
+        cluster_risk: str = "Green",
+        hotspot_x: int = 0,
+        hotspot_y: int = 0,
+        cluster_ratio: float = 0.0,
     ) -> None:
         cursor = self.conn.cursor()
         cursor.execute(
             """
-            INSERT INTO metrics (zone, count, density_ratio, risk_level)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO metrics (
+                zone, count, density_ratio, risk_level, local_density, density_class,
+                cluster_detected, cluster_risk, hotspot_x, hotspot_y, cluster_ratio
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
-            (zone, count, density_ratio, risk_level),
+            (zone, count, density_ratio, risk_level, local_density, density_class,
+             cluster_detected, cluster_risk, hotspot_x, hotspot_y, cluster_ratio),
         )
         self.conn.commit()
 

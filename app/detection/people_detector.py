@@ -1,11 +1,13 @@
 from ultralytics import YOLO
 import numpy as np
+import os
 from ..config import YOLO_MODEL_NAME
 
 
 class PeopleDetector:
     def __init__(self, model_path: str = None):
-        path = model_path or YOLO_MODEL_NAME
+        env_model = os.environ.get("YOLO_MODEL_PATH")
+        path = model_path or env_model or YOLO_MODEL_NAME
         self.model = YOLO(path)
 
     def detect(self, frame: np.ndarray) -> dict:

@@ -60,7 +60,7 @@
             <div class="kpi-card">
                 <div class="kpi-header">
                     <h3>Total Crowd</h3>
-                    <div class="kpi-icon">👥</div>
+                    <div class="kpi-icon"></div>
                 </div>
                 <p id="total-count" class="kpi-value">0</p>
                 <p class="kpi-label">people detected</p>
@@ -68,7 +68,7 @@
             <div class="kpi-card">
                 <div class="kpi-header">
                     <h3>High Risk Zones</h3>
-                    <div class="kpi-icon">⚠️</div>
+                    <div class="kpi-icon"></div>
                 </div>
                 <p id="high-risk-count" class="kpi-value">0</p>
                 <p class="kpi-label">zones critical</p>
@@ -76,7 +76,7 @@
             <div class="kpi-card">
                 <div class="kpi-header">
                     <h3>Last Update</h3>
-                    <div class="kpi-icon">📊</div>
+                    <div class="kpi-icon"></div>
                 </div>
                 <p id="last-update" class="kpi-value">--</p>
                 <p class="kpi-label">last refreshed</p>
@@ -105,29 +105,41 @@
             </div>
         </section>
 
-        <!-- ZONE STATUS TABLE -->
-        <section class="card">
+        <!-- LIVE CAMERA FEEDS -->
+        <section class="card camera-section">
             <div class="card-header">
-                <h2>Zone Status</h2>
+                <h2>Live Monitoring Feeds</h2>
+                <div class="legend-container">
+                    <span class="legend-label">Density Intensity:</span>
+                    <div class="legend-bar"></div>
+                    <div class="legend-labels">
+                        <span>Empty</span>
+                        <span>Full</span>
+                    </div>
+                </div>
             </div>
-            <div class="table-wrapper">
-                <table id="status-table">
-                    <thead>
-                        <tr>
-                            <th>Zone</th>
-                            <th>Count</th>
-                            <th>Density</th>
-                            <th>Risk</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="4" class="placeholder">Waiting for data...</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="camera-grid">
+                <div class="camera-feed">
+                    <div class="feed-label">ZONE A - ENTRANCE</div>
+                    <img id="stream-zone-a" src="/api/stream/Zone_A" alt="Zone A Feed" onerror="this.src='https://placehold.co/640x480?text=Zone+A+Offline'">
+                </div>
+                <div class="camera-feed">
+                    <div class="feed-label">ZONE B - CONCOURSE</div>
+                    <img id="stream-zone-b" src="/api/stream/Zone_B" alt="Zone B Feed" onerror="this.src='https://placehold.co/640x480?text=Zone+B+Offline'">
+                </div>
             </div>
         </section>
+
+        <!-- ZONE INTELLIGENCE CARDS -->
+        <section class="card">
+            <div class="card-header">
+                <h2>Zone Intelligence</h2>
+            </div>
+            <div id="zone-cards-grid" class="zone-cards-grid">
+                <!-- Dynamically populated by script.js -->
+            </div>
+        </section>
+
 
         <!-- HEATMAP -->
         <section class="card">

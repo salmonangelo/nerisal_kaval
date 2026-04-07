@@ -216,26 +216,61 @@ function updateRiskChart(data) {
 /* ==================== TABLE ==================== */
 
 function renderStatus(data) {
-    const tbody = document.querySelector('#status-table tbody');
-    tbody.innerHTML = '';
+    const grid = document.getElementById('zone-cards-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
 
     data.forEach((item, index) => {
-        const tr = document.createElement('tr');
-        tr.style.animationDelay = `${index * 0.05}s`;
+        const card = document.createElement('div');
+        const clusterClass = item.cluster_detected ? 'cluster-highlight' : '';
+        card.className = `zone-card ${clusterClass}`;
+        card.style.animationDelay = `${index * 0.1}s`;
         
-        tr.innerHTML = `
-            <td><strong>${item.zone}</strong></td>
-            <td>${item.count.toLocaleString()}</td>
-            <td>${item.density_ratio.toFixed(2)}</td>
-            <td>
-                <span class="badge ${item.risk_level.toLowerCase()}">
-                    ${item.risk_level}
-                </span>
-            </td>
+        const hotspotCoords = item.cluster_detected 
+            ? `(${item.hotspot_x}, ${item.hotspot_y})`
+            : 'None';
+
+        const clusterWarning = item.cluster_detected 
+            ? `<div class="cluster-warning-badge">⚠️ CLUSTER DETECTED</div>`
+            : '';
+
+        card.innerHTML = `
+            <div class="zone-card-header">
+                <span class="zone-name">${item.zone}</span>
+                ${clusterWarning}
+            </div>
+            
+            <div class="zone-details">
+                <div class="detail-row">
+                    <span class="detail-label">Count:</span>
+                    <span class="detail-value">${item.count.toLocaleString()}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Density:</span>
+                    <span class="detail-value">${item.density_ratio.toFixed(2)}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Class:</span>
+                    <span class="detail-value">${item.density_class}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Zone Risk:</span>
+                    <span class="risk-badge badge-${item.risk_level.toLowerCase()}">${item.risk_level}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Cluster Risk:</span>
+                    <span class="risk-badge badge-${item.cluster_risk.toLowerCase()}">${item.cluster_risk}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Hotspot:</span>
+                    <span class="detail-value">${hotspotCoords}</span>
+                </div>
+            </div>
         `;
-        tbody.appendChild(tr);
+        grid.appendChild(card);
     });
 }
+
 
 /* ==================== ALERTS ==================== */
 

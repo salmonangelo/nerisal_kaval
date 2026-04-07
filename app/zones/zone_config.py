@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Tuple, Optional
+from typing import List, Tuple, Optional, Union
 
 
 @dataclass
@@ -10,6 +10,8 @@ class RectZone:
     x2: int
     y2: int
     capacity: Optional[int] = None
+    source: Optional[Union[int, str]] = None
+    triggers_alert_for: Optional[str] = None  # name of another zone to alert if this one is critical
 
     @property
     def points(self) -> List[Tuple[int, int]]:

@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from ..config import FRAME_INTERVAL_SECONDS
+from ..utils.preprocessing import basic_noise_reduction
 
 
 class FrameSampler:
@@ -9,7 +10,7 @@ class FrameSampler:
         self.interval = interval
         self.cap = cv2.VideoCapture(source)
         self.fps = self.cap.get(cv2.CAP_PROP_FPS) or 30
-        self.step = int(self.fps * self.interval)
+        self.step = max(1, int(self.fps * self.interval))
         self.idx = 0
 
     def __iter__(self):
@@ -25,7 +26,7 @@ class FrameSampler:
                 raise StopIteration
             if self.idx % self.step == 0:
                 self.idx += 1
-                return frame
+                return basic_noise_reduction(frame)
             self.idx += 1
 
     def close(self):

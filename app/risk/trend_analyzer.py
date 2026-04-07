@@ -5,7 +5,7 @@ class TrendAnalyzer:
     def __init__(self):
         # maintain up to three recent density snapshots per zone
         self.history: List[Dict[str, float]] = []
-        self.window_size = 3
+        self.window_size = 10
 
     def add_density(self, densities: Dict[str, float]):
         """Add latest density readings (zone -> value).
@@ -42,6 +42,8 @@ class TrendAnalyzer:
             old_val = first.get(zone, 0.0)
             if old_val > 0:
                 rates[zone] = (new_val - old_val) / old_val
+            elif new_val > 0:
+                rates[zone] = new_val
             else:
                 rates[zone] = 0.0
         return rates
