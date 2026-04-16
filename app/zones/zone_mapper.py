@@ -32,6 +32,8 @@ class ZoneMapper:
             
         points_in_zone: Dict[str, List[Tuple[float, float]]] = {name: [] for name in self.polygons}
         
+        boxes_in_zone: Dict[str, List] = {name: [] for name in self.polygons}
+
         for item in boxes:
             try:
                 x1, y1, x2, y2 = item
@@ -39,10 +41,11 @@ class ZoneMapper:
                 print(f"Skipping invalid box entry: {item}")
                 continue
             cx = (x1 + x2) / 2.0
-            cy = y2 # bottom center
+            cy = (y1 + y2) / 2.0  # true centroid for consistency with heatmap
             zone = self.map_point(cx, cy)
             if zone:
                 points_in_zone[zone].append((cx, cy))
+                boxes_in_zone[zone].append(item)
                 
         result = {}
         height, width = frame_shape[:2]
@@ -64,6 +67,7 @@ class ZoneMapper:
             result[name] = {
                 "count": count, 
                 "capacity": cap,
-                "local_density": local_density
+                "local_density": local_density,
+                "detections": boxes_in_zone[name]
             }
         return result

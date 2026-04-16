@@ -15,7 +15,7 @@ class SimpleTracker:
             boxes: List of [x1, y1, x2, y2]
         
         Returns:
-            List of dicts: [{"id": int, "bbox": [x1, y1, x2, y2]}, ...]
+            List of dicts: [{"id": int, "bbox": [x1, y1, x2, y2], "centroid": (cx, cy)}, ...]
         """
         if not boxes:
             self.objects.clear()
@@ -28,7 +28,7 @@ class SimpleTracker:
                 cx = (box[0] + box[2]) / 2.0
                 cy = (box[1] + box[3]) / 2.0
                 self.objects[self.next_id] = (cx, cy)
-                tracked.append({"id": self.next_id, "bbox": box})
+                tracked.append({"id": self.next_id, "bbox": box, "centroid": (cx, cy)})
                 self.next_id += 1
             return tracked
 
@@ -65,7 +65,7 @@ class SimpleTracker:
                 used_boxes.add(best_box_idx)
                 used_ids.add(obj_id)
                 new_objects[obj_id] = best_box_cents
-                tracked.append({"id": obj_id, "bbox": best_box})
+                tracked.append({"id": obj_id, "bbox": best_box, "centroid": best_box_cents})
 
         # Register new objects
         for i, box in enumerate(boxes):
@@ -73,7 +73,7 @@ class SimpleTracker:
                 ncx = (box[0] + box[2]) / 2.0
                 ncy = (box[1] + box[3]) / 2.0
                 new_objects[self.next_id] = (ncx, ncy)
-                tracked.append({"id": self.next_id, "bbox": box})
+                tracked.append({"id": self.next_id, "bbox": box, "centroid": (ncx, ncy)})
                 self.next_id += 1
 
         self.objects = new_objects

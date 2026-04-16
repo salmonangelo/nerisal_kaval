@@ -41,28 +41,32 @@ class HeatmapGenerator:
 
         return heatmap
 
-    def to_overlay(self, heatmap: np.ndarray, alpha: float = 0.5) -> np.ndarray:
-        """Convert normalized heatmap to colored BGRA overlay.
+    def to_overlay(self, heatmap: np.ndarray, frame_shape: tuple = None) -> np.ndarray:
+        """Convert normalized heatmap to colored BGR overlay, sized to match frame.
         
         Args:
             heatmap: Normalized float32 heatmap (0 to 1).
-            alpha: Transparency factor for the non-zero areas.
+            frame_shape: Optional (height, width) to ensure output matches frame.
             
         Returns:
-            BGRA array.
+            BGR array matching frame dimensions.
         """
+        # Ensure heatmap matches target frame size
+        if frame_shape is not None:
+            h, w = frame_shape[:2]
+            if heatmap.shape != (h, w):
+                heatmap = cv2.resize(heatmap, (w, h))
+        
         # 1. Scale to grayscale uint8 for colormap
         h_uint8 = (heatmap * 255).astype(np.uint8)
         
-        # 2. Apply JET colormap (returns BGR)
+        # 2. Apply JET colormap (returns BGR with proper size)
         color_map = cv2.applyColorMap(h_uint8, cv2.COLORMAP_JET)
         
-        # 3. Create BGRA array
-        bgra = cv2.cvtColor(color_map, cv2.COLOR_BGR2BGRA)
-        
-        # 4. Set dynamic alpha based on heatmap intensity
-        # We use a slight threshold to keep zeros fully transparent
-        alpha_channel = (heatmap * 255 * alpha).astype(np.uint8)
-        bgra[:, :, 3] = alpha_channel
-        
-        return bgra
+        return color_map
+
+    def generate_full(self, boxes: list, frame_shape: tuple) -> tuple:
+        """Plot centroids, apply blur, normalize, and return (raw_matrix, colored_frame)."""
+        heatmap_raw = self.generate(boxes, frame_shape)
+        heatmap_frame = self.to_overlay(heatmap_raw, frame_shape)
+        return heatmap_raw, heatmap_frame

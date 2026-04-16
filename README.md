@@ -36,11 +36,26 @@ Nerisal Kaval (CrowdCare) is a modular, AI-powered crowd risk monitoring system 
    ```
 
 3. **Run the Detection Loop**:
-   By default, this uses the primary webcam (0).
+   
+   **Default** (uses webcam 0 for both zones):
    ```bash
-   python run.py --source 0
+   python run.py
    ```
-   *For a video file:* `python run.py --source data/crowd_demo.mp4`
+   
+   **With independent video sources** (multi-camera):
+   ```bash
+   python run.py --sourceA 0 --sourceB 1
+   ```
+   
+   **With video files**:
+   ```bash
+   python run.py --sourceA data/video1.mp4 --sourceB data/video2.mp4
+   ```
+   
+   **Single webcam for both zones** (fallback):
+   ```bash
+   python run.py --sourceA 0 --sourceB 0
+   ```
 
 4. **Access the Command Center**:
    Open your browser and navigate to: [http://localhost:8000/](http://localhost:8000/)
