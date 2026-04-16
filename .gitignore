@@ -48,6 +48,10 @@ metrics.db
 *.avi
 *.mov
 
+# BUT INCLUDE screenshot folder for documentation
+!screenshot/
+!screenshot/**
+
 # Documentation (keep README.md only)
 project_condition_report.md
 portfolio_guide.md
