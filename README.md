@@ -9,6 +9,7 @@ Nerisal Kaval (CrowdCare) is a modular, AI-powered crowd risk monitoring system 
 - **Intelligent Risk Assessment**: 
     - **Global Density**: Overall crowd levels per zone.
     - **Cluster Detection**: Identifies local hotspots or dangerous crowd groupings via spatial heatmap analysis.
+- **Zone Flow Tracking**: Real-time monitoring of people movement between zones with aggregated flow counts.
 - **Dynamic Dashboard**: 
     - Glassmorphic UI with real-time intelligence cards.
     - Live MJPEG streams with heatmap and tracking overlays.
@@ -60,7 +61,56 @@ Nerisal Kaval (CrowdCare) is a modular, AI-powered crowd risk monitoring system 
 4. **Access the Command Center**:
    Open your browser and navigate to: [http://localhost:8000/](http://localhost:8000/)
 
-## 🔧 Configuration
+## � Dashboard Gallery
+
+### **Real-Time Monitoring Interface**
+Nerisal Kaval provides a professional, glassmorphic dashboard with real-time crowd intelligence:
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="screenshot/Screenshot 2026-04-16 203055.png" width="400" alt="Dashboard Overview">
+        <br><b>Dashboard Overview</b><br><i>Real-time intelligence cards & metrics</i>
+      </td>
+      <td align="center">
+        <img src="screenshot/Screenshot 2026-04-16 203120.png" width="400" alt="Camera Feeds">
+        <br><b>Live Camera Feeds</b><br><i>Multi-zone MJPEG streaming with overlays</i>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="screenshot/Screenshot 2026-04-16 203131.png" width="400" alt="Zone Intelligence">
+        <br><b>Zone Intelligence</b><br><i>Per-zone metrics & risk assessment</i>
+      </td>
+      <td align="center">
+        <img src="screenshot/Screenshot 2026-04-16 203205.png" width="400" alt="Density Heatmap">
+        <br><b>Density Heatmap</b><br><i>Gaussian-smoothed crowd distribution</i>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="screenshot/Screenshot 2026-04-16 203215.png" width="400" alt="Zone Flow Tracking">
+        <br><b>Zone Flow Tracking</b><br><i>People movement between zones</i>
+      </td>
+      <td align="center">
+        <img src="screenshot/Screenshot 2026-04-16 203225.png" width="400" alt="Analytics & Alerts">
+        <br><b>Analytics & Alerts</b><br><i>Historical trends & critical notifications</i>
+      </td>
+    </tr>
+  </table>
+</div>
+
+### **Key Dashboard Features**
+- 🎨 **Glassmorphic Design** — Modern, responsive UI with dark/light theme toggle
+- 📊 **Real-Time Charts** — Live crowd trends & density distribution graphs
+- 🚨 **Alert System** — Multi-tier (Amber/Red) notifications with cluster detection
+- 🔄 **Zone Flow Visualization** — Track people movement between monitored zones
+- 📈 **Analytics Dashboard** — Historical data, growth rates, density classification
+- 🎯 **Hotspot Detection** — Identifies dangerous crowd groupings with coordinates
+- 🌍 **Multi-Zone Support** — Independent monitoring of separate camera feeds
+
+## �🔧 Configuration
 
 Global settings such as thresholds and sampling rates can be modified in `app/config.py`. 
 
